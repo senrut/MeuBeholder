@@ -1,4 +1,4 @@
-  import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { doLogin } from '../../services/AuthService';
 
@@ -7,22 +7,36 @@ function Login() {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  function onChangeEmail(event){
+  function onChangeInput(event) {
+    if (event.target.id === 'email')
+      setEmail(event.target.value);
+    else
+      setPassword(event.target.value);
+  }
+
+
+  /* function onChangeEmail(event){
     setEmail(event.target.value);
   }
   function onChangePassword(event){
     setPassword(event.target.value);
   }
-
-  function onSubmit(event){
+ */
+  function onSubmit(event) {
     event.preventDefault();
-    console.log(email, password);
-    const isValid = doLogin(email, password);
-    if(isValid)
-      history.push('/settings');
+//    console.log(email, password);
+    doLogin(email, password)
+      .then(isValid => {
+        if (isValid)
+          history.push('/settings');
+      })
+      .catch(err => {
+setError(err)
+      })
+
   }
-  
 
   return (
     <main>
@@ -50,7 +64,7 @@ function Login() {
                     <span className="input-group-text" id="basic-addon1">
                       <svg className="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
                     </span>
-                    <input type="email" className="form-control" placeholder="example@company.com" id="email" autofocus required onChange={onChangeEmail}/>
+                    <input type="email" className="form-control" placeholder="example@company.com" id="email" autofocus required onChange={onChangeInput} />
                   </div>
                   <div className="form-group">
                     <div className="form-group mb-4">
@@ -59,7 +73,7 @@ function Login() {
                         <span class="input-group-text" id="basic-addon2">
                           <svg className="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"></path></svg>
                         </span>
-                        <input type="password" placeholder="Password" class="form-control" id="password" required onChange={onChangePassword}/>
+                        <input type="password" placeholder="Password" class="form-control" id="password" required onChange={onChangeInput} />
                       </div>
                     </div>
                   </div>
@@ -73,8 +87,13 @@ function Login() {
                     <div><Link to="/forgot-password" className="small text-right">Lost password?</Link></div>
                   </div>
                   <div className="d-grid">
-                      <button type="submit" className="btn btn-gray-800">Sign in</button>
-                    </div>
+                    <button type="submit" className="btn btn-gray-800">Sign in</button>
+                  </div>
+                  {
+                    error ?
+                    <div className="alert alert-danger mt-2">{error} </div>
+                    : <React.Fragment></React.Fragment>
+                  }
                 </div>
               </form>
             </div>
