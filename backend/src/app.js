@@ -2,6 +2,7 @@ const express = require('express');
 require('express-async-errors');
 const cors = require('cors');
 const helmet = require('helmet');
+const authController = require('./controllers/authController');
 
 const app = express();
 
@@ -15,24 +16,27 @@ app.use(express.json());
 //   res.send('Hello Beholder');
 // })
 
-app.post('/login', (req, res, next) => {
-  const email = req.body.email;
-  const password = req.body.password;
-  if (email === 'contato@luiztools.com.br'
-    && password === '123456') {
-    res.sendStatus(200);
-  }
-  else
-    res.sendStatus(401);
-})
 
+app.post('/login', authController.doLogin)
+
+//  app.post('/login', (req, res, next) => {
+  // const email = req.body.email;
+  // const password = req.body.password;
+  // if (email === 'contato@luiztools.com.br'
+  //   && password === '123456') {
+  //   res.sendStatus(200);
+  // }
+  // else
+  //   res.sendStatus(401);
 // app.use('/erro', (req, res, next) => {
 //   throw new Error('Deu ruim!');
 // })
 
-app.post('/logout', (req, res, next) => {
-  res.sendStatus(200);
-})
+app.post('/logout', authController.doLogout);
+
+// app.post('/logout', (req, res, next) => {
+//   res.sendStatus(200);
+// })
 
 app.use('/', (req, res, next) => {
   res.send('Hello world');
