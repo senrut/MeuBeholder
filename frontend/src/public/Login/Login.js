@@ -17,7 +17,6 @@ function Login() {
       setPassword(event.target.value);
   }
 
-
   /* function onChangeEmail(event){
     setEmail(event.target.value);
   }
@@ -25,6 +24,7 @@ function Login() {
     setPassword(event.target.value);
   }
  */
+
   function onSubmit(event) {
     event.preventDefault();
     //    console.log(email, password);
@@ -32,6 +32,7 @@ function Login() {
     doLogin(email, password)
       .then(response => {
         if (response) {
+          localStorage.setItem('token', response.token);
           history.push('/settings');
         }
       })
