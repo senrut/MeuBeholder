@@ -2,7 +2,9 @@ const express = require('express');
 require('express-async-errors');
 const cors = require('cors');
 const helmet = require('helmet');
+const authMiddleware = require('./middlewares/authMiddleware');
 const authController = require('./controllers/authController');
+const settingsController = require('./controllers/settingsController');
 
 const app = express();
 
@@ -31,6 +33,8 @@ app.post('/login', authController.doLogin)
 // app.use('/erro', (req, res, next) => {
 //   throw new Error('Deu ruim!');
 // })
+
+app.get('/settings', authMiddleware, settingsController.getSettings);
 
 app.post('/logout', authController.doLogout);
 
