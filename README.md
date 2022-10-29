@@ -1,2 +1,2 @@
 # MeuBeholder
-multicoin taderbot for Binance
+multicoin traderbot for Binance
