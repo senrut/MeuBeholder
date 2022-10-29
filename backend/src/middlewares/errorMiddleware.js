@@ -1,3 +1,3 @@
-module.exports = ( error, req, res ) => {
-  console.error(error);
+module.exports = (error, req, res) => {
+    console.error(error);
 }
