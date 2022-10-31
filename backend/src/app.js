@@ -18,9 +18,13 @@ app.post('/login', authController.doLogin);
 
 app.post('/logout', authController.doLogout);
 
-app.use('/', (req, res, next) => {
-    res.send('Hello World');
-})
+app.use('/erro', (req, res, next) => {
+    throw new Error('Deu ruim!');
+});
+
+// app.use('/', (req, res, next) => {
+//     res.send('Hello World');
+// });
 
 app.use(errorMiddleware);
 
